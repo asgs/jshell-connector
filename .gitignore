@@ -1,6 +1,7 @@
 *.class
 *.jar
 target/
+.idea/
 .project
 .classpath
 *.iml
