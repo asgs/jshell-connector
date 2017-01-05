@@ -1,7 +1,8 @@
 *.class
 *.jar
-target/*
+target/
 .project
 .classpath
 *.iml
+dependency-reduced-pom.xml
 

@@ -28,7 +28,7 @@ import com.google.common.collect.ImmutableList;
 public class Main {
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private static final List DISALLOWED_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit");
+    private static final List DISALLOWED_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit", "/edit");
 
     public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
 
@@ -70,7 +70,7 @@ Runtime.getRuntime().addShutdownHook(new Thread() {
                 		try {
 				    //System.out.println("Received message " + message + " from session " + session);
 				    if (DISALLOWED_COMMANDS.contains(message)) {
-					 session.getBasicRemote().sendText("No! Press CTRL-W instead." + LINE_SEPARATOR);
+					 session.getBasicRemote().sendText("No! Can't execute that." + LINE_SEPARATOR);
 					 return;
 				    }
 		                    OutputStream outputStream = instance.getOutputStream();
