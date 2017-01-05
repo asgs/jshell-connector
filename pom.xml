@@ -16,8 +16,8 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <!-- Depends on the jshell binary available JDK9 onwards. -->
-                    <source>9</source>
-                    <target>9</target>
+                    <source>1.9</source>
+                    <target>1.9</target>
                     <!--compilerId>javac-with-errorprone</compilerId>
                     <forceJavacCompilerUse>true</forceJavacCompilerUse-->
                 </configuration>

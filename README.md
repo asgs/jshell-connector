@@ -15,5 +15,5 @@ If you want to quickly try this, go to http://137.74.64.141/jshell-frontend/
 
 # Build and Deploy
 
-Uses mvn, so it's just a matter of `mvn clean package && java -jar <jarname>`
-It assumes there's a jdk directory named jdk-9 under your user directory. Feel free to change it before building.
+This project uses mvn, so it's just a matter of `mvn clean package && java -jar <jarname>`
+Change the jdk home under `src/main/resources` to match your installation before building.
