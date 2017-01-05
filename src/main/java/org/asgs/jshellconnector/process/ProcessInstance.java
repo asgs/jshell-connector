@@ -1,5 +1,7 @@
 package org.asgs.jshellconnector.process;
 
+import org.asgs.jshellconnector.CommonConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,8 +10,8 @@ import java.io.OutputStream;
  * Created by asgs on 05-01-2017.
  */
 public class ProcessInstance {
-    Process process;
     static ProcessInstance instance = new ProcessInstance();
+    Process process;
 
     private ProcessInstance() {
         // No.
@@ -20,7 +22,8 @@ public class ProcessInstance {
     }
 
     public void initProcess() {
-        ProcessBuilder command = new ProcessBuilder("/home/asgs/jdk-9/bin/jshell");
+        //ProcessBuilder command = new ProcessBuilder("/home/asgs/jdk-9/bin/jshell");
+        ProcessBuilder command = new ProcessBuilder(CommonConfig.getValue("JDK_HOME") + "/bin/jshell");
         command.redirectErrorStream(true);
         System.out.println("Bootstrapping JShell. Please wait...");
         try {

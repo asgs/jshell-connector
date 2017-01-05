@@ -15,7 +15,13 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
         final ProcessInstance instance = ProcessInstance.getInstance();
         new Thread(() -> instance.initProcess()).start();
-        Server server = new Server("localhost", 8080, "/jshell-ws", null, JShellWebSocketApplicationConfig.class);
+        int port;
+        try {
+            port = Integer.parseInt(CommonConfig.getValue("WS_PORT"));
+        } catch (NumberFormatException e) {
+            port = 8080;
+        }
+        Server server = new Server("localhost", port, CommonConfig.getValue("WS_CONTEXT"), null, JShellWebSocketApplicationConfig.class);
         try {
             server.start();
         } catch (Exception e) {
