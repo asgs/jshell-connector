@@ -58,6 +58,11 @@ public class JShellWebSocketEndpoint extends Endpoint {
                 }
             }
         });
+        try {
+		session.getBasicRemote().sendText("JVM Version is " + System.getProperty("java.vm.version"));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
     }
 
     public void onError(final Session session, Throwable t) {

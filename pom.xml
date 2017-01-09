@@ -20,6 +20,9 @@
                     <target>1.9</target>
                     <!--compilerId>javac-with-errorprone</compilerId>
                     <forceJavacCompilerUse>true</forceJavacCompilerUse-->
+		    <compilerArgs>
+			<arg>-Xlint:all</arg>
+		    </compilerArgs>
                 </configuration>
                 <!--dependencies-->
                     <!-- https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core -->
