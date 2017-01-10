@@ -7,6 +7,8 @@ import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import javax.websocket.MessageHandler;
 import javax.websocket.Session;
+import static javax.websocket.CloseReason.CloseCodes.NORMAL_CLOSURE;
+import javax.websocket.CloseReason;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +23,8 @@ public class JShellWebSocketEndpoint extends Endpoint {
     private static final int PROCESS_TIME = 1000;
     private static final int BYTES_TO_READ = 10000;
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private static final List DISALLOWED_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit", "/edit");
+    private static final List DISALLOWED_COMMANDS = ImmutableList.of("/edit");
+    private static final List SESSION_CLOSURE_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit");
 
     @Override
     public void onOpen(final Session session, EndpointConfig config) {
@@ -34,7 +37,11 @@ public class JShellWebSocketEndpoint extends Endpoint {
                         session.getBasicRemote().sendText("No! Can't execute that." + LINE_SEPARATOR);
                         return;
                     }
-                    OutputStream outputStream = instance.getOutputStream();
+                    if (SESSION_CLOSURE_COMMANDS.contains(message)) {
+                        session.close(new CloseReason(NORMAL_CLOSURE, "Goodbye!" + LINE_SEPARATOR));
+			return;
+                    }
+		    OutputStream outputStream = instance.getOutputStream();
                     outputStream.write((message + LINE_SEPARATOR).getBytes("UTF-8"));
                     System.out.println("Sent command to jshell: " + message);
                     outputStream.flush();
