@@ -23,8 +23,8 @@ public class JShellWebSocketEndpoint extends Endpoint {
     private static final int PROCESS_TIME = 1000;
     private static final int BYTES_TO_READ = 10000;
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private static final List DISALLOWED_COMMANDS = ImmutableList.of("/edit");
-    private static final List SESSION_CLOSURE_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit");
+    private static final List<String> DISALLOWED_COMMANDS = ImmutableList.of("/edit");
+    private static final List<String> SESSION_CLOSURE_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit");
 
     @Override
     public void onOpen(final Session session, EndpointConfig config) {
@@ -33,9 +33,11 @@ public class JShellWebSocketEndpoint extends Endpoint {
         session.addMessageHandler(new MessageHandler.Whole<String>() {
             public void onMessage(String message) {
                 try {
-                    if (DISALLOWED_COMMANDS.contains(message)) {
-                        session.getBasicRemote().sendText("No! Can't execute that." + LINE_SEPARATOR);
-                        return;
+                    for (String disallowedCommand : DISALLOWED_COMMANDS) {
+			if (message.contains(disallowedCommand)) {
+	                        session.getBasicRemote().sendText("No! Can't execute that." + LINE_SEPARATOR);
+        	                return;
+			}
                     }
                     if (SESSION_CLOSURE_COMMANDS.contains(message)) {
                         session.close(new CloseReason(NORMAL_CLOSURE, "Goodbye!" + LINE_SEPARATOR));
