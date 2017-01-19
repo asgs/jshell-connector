@@ -15,17 +15,15 @@ public class JShellWebSocketApplicationConfig implements ServerApplicationConfig
 
     @Override
     public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> set) {
-        System.out.println("Inside getEndpointConfigs. Set is " + set);
-        Set<ServerEndpointConfig> set1 = new HashSet<>();
-        set1.add(ServerEndpointConfig.Builder
+        Set<ServerEndpointConfig> endpointConfigs = new HashSet<>();
+        endpointConfigs.add(ServerEndpointConfig.Builder
                 .create(JShellWebSocketEndpoint.class, "/")
                 .build());
-        return set1;
+        return endpointConfigs;
     }
 
     @Override
     public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> set) {
-        System.out.println("Returning empty set.");
         return new HashSet();
     }
 }

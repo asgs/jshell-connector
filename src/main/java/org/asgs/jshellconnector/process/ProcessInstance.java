@@ -10,8 +10,10 @@ import java.io.OutputStream;
  * Created by asgs on 05-01-2017.
  */
 public class ProcessInstance {
-    static ProcessInstance instance = new ProcessInstance();
-    Process process;
+    private static final int PROCESS_TIME = 1000;
+    private static final int BYTES_TO_READ = 10000;
+    private static ProcessInstance instance = new ProcessInstance();
+    private Process process;
 
     private ProcessInstance() {
         // No.
@@ -22,7 +24,6 @@ public class ProcessInstance {
     }
 
     public void initProcess() {
-        //ProcessBuilder command = new ProcessBuilder("/home/asgs/jdk-9/bin/jshell");
         ProcessBuilder command = new ProcessBuilder(CommonConfig.getValue("JDK_HOME") + "/bin/jshell");
         command.redirectErrorStream(true);
         System.out.println("Bootstrapping JShell. Please wait...");
@@ -35,12 +36,12 @@ public class ProcessInstance {
 
         InputStream inputStream = process.getInputStream();
         try {
-            Thread.sleep(500);
+            Thread.sleep(PROCESS_TIME);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            byte[] data = new byte[1000000];
+            byte[] data = new byte[BYTES_TO_READ];
             // Clear the initial JShell banner displayed.
             inputStream.read(data, 0, data.length);
         } catch (IOException e) {
