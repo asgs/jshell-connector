@@ -21,7 +21,7 @@ import java.util.List;
 public class JShellWebSocketEndpoint extends Endpoint {
 
     private static final int PROCESS_TIME = 1000;
-    private static final int BYTES_TO_READ = Integer.MAX_VALUE;
+    private static final int BYTES_TO_READ = 2 << 20; // Close to an MB.
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final List<String> DISALLOWED_COMMANDS = ImmutableList.of("/edit");
     private static final List<String> SESSION_CLOSURE_COMMANDS = ImmutableList.of("/ex", "/exi", "/exit");

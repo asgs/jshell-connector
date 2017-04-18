@@ -11,7 +11,7 @@ import java.io.OutputStream;
  */
 public class ProcessInstance {
     private static final int PROCESS_TIME = 1000;
-    private static final int BYTES_TO_READ = Integer.MAX_VALUE;
+    private static final int BYTES_TO_READ = 1 << 20; // Close to an MB.
     private static ProcessInstance instance = new ProcessInstance();
     private Process process;
 
