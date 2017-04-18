@@ -11,7 +11,7 @@ Code is ugly as fuck as it stands at the moment, as it was written in a hurry wi
 
 # Test Instance
 
-If you want to quickly try this, go to http://137.74.64.141/jshell-frontend/
+If you want to quickly try this, go to http://asgs.tech/jshell-frontend/. Not sure who, but someone has already put-up an aptly named website which is embedding this test instance as an iFrame :-) You can check that at http://jshell.tk
 
 # Build and Deploy
 
