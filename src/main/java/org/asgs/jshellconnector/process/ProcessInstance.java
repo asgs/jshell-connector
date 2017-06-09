@@ -29,7 +29,7 @@ public class ProcessInstance {
         System.out.println("Bootstrapping JShell. Please wait...");
         try {
             process = command.start();
-            System.out.println("JShell up and running; pid=" + process.getPid());
+            System.out.println("JShell up and running; pid=" + process.pid());
         } catch (Exception e) {
             e.printStackTrace();
         }
