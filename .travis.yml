@@ -6,6 +6,6 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get upgrade openjdk-9-jdk -y
 
-jdk:
-  - openjdk9
+# jdk:
+#  - openjdk9
 
