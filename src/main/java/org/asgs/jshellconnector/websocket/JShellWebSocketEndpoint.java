@@ -31,46 +31,46 @@ public class JShellWebSocketEndpoint extends Endpoint {
     RemoteEndpoint.Async remoteEndpoint = session.getAsyncRemote();
     session.setMaxIdleTimeout(120000); // 2 min timeout.
     session.addMessageHandler(
-        new MessageHandler.Whole<String>() {
-          public void onMessage(String message) {
-            try {
+        String.class,
+        (MessageHandler.Whole<String>)
+            message -> {
+              try {
 
-              for (String disallowedCommand : DISALLOWED_COMMANDS) {
-                if (message.contains(disallowedCommand)) {
-                  remoteEndpoint.sendText("No! Can't execute that." + LINE_SEPARATOR);
+                for (String disallowedCommand : DISALLOWED_COMMANDS) {
+                  if (message.contains(disallowedCommand)) {
+                    remoteEndpoint.sendText("No! Can't execute that." + LINE_SEPARATOR);
+                    return;
+                  }
+                }
+
+                if (SESSION_CLOSURE_COMMANDS.contains(message)) {
+                  session.close(new CloseReason(NORMAL_CLOSURE, "Goodbye!" + LINE_SEPARATOR));
                   return;
                 }
-              }
 
-              if (SESSION_CLOSURE_COMMANDS.contains(message)) {
-                session.close(new CloseReason(NORMAL_CLOSURE, "Goodbye!" + LINE_SEPARATOR));
-                return;
-              }
+                outputStream.write((message + LINE_SEPARATOR).getBytes("UTF-8"));
+                System.out.println("Sent command to jshell: " + message);
+                outputStream.flush();
 
-              outputStream.write((message + LINE_SEPARATOR).getBytes("UTF-8"));
-              System.out.println("Sent command to jshell: " + message);
-              outputStream.flush();
+                // Give a chance to JShell to process the command.
+                try {
+                  Thread.sleep(PROCESS_TIME);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
 
-              // Give a chance to JShell to process the command.
-              try {
-                Thread.sleep(PROCESS_TIME);
-              } catch (Exception e) {
+                byte[] data = new byte[BYTES_TO_READ];
+                // Attempting to read as much as possible in one go, so as not to stall.
+                int bytesRead = inputStream.read(data, 0, data.length);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byteArrayOutputStream.write(data, 0, bytesRead);
+                String commandOutput = new String(byteArrayOutputStream.toByteArray(), "UTF-8");
+                remoteEndpoint.sendText(commandOutput);
+                System.out.println("Sent command output: " + commandOutput);
+              } catch (IOException e) {
                 e.printStackTrace();
               }
-
-              byte[] data = new byte[BYTES_TO_READ];
-              // Attempting to read as much as possible in one go, so as not to stall.
-              int bytesRead = inputStream.read(data, 0, data.length);
-              ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-              byteArrayOutputStream.write(data, 0, bytesRead);
-              String commandOutput = new String(byteArrayOutputStream.toByteArray(), "UTF-8");
-              remoteEndpoint.sendText(commandOutput);
-              System.out.println("Sent command output: " + commandOutput);
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-        });
+            });
 
     remoteEndpoint.sendText(
         "JVM Version is " + System.getProperty("java.vm.version") + LINE_SEPARATOR);
