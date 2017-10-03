@@ -5,7 +5,7 @@ sudo: enabled
 before_install:
   - sudo apt-get -q update
   - sudo apt-get -q install openjdk-9-jdk -y
-  - sudo apt-get -q oracle-java9-set-default -y
+  - sudo apt-get -q install oracle-java9-set-default -y
 
 # jdk:
 #  - openjdk9
