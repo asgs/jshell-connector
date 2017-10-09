@@ -26,8 +26,6 @@ public class JShellWebSocketEndpoint extends Endpoint {
     OutputStream outputStream = instance.getOutputStream();
     InputStream inputStream = instance.getInputStream();
 
-    // Converting the below Anonymous class to Lambda throws a ClassCastException in java.base.
-    // Could be Jigsaw?
     RemoteEndpoint.Async remoteEndpoint = session.getAsyncRemote();
     session.setMaxIdleTimeout(120000); // 2 min timeout.
     session.addMessageHandler(

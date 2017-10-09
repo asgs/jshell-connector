@@ -14,7 +14,7 @@ public class Main {
   public static void main(String[] args)
       throws IOException, InterruptedException, ExecutionException, DeploymentException {
     final ProcessInstance instance = ProcessInstance.getInstance();
-    Runnable job =
+    Runnable jshellProcessJob =
         () -> {
           try {
             instance.initProcess();
@@ -24,7 +24,7 @@ public class Main {
           }
         };
 
-    new Thread(job).start();
+    new Thread(jshellProcessJob).start();
 
     int port;
     try {
